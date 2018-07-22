@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+		<title>HTML5 Canvas折线图表和柱形图表DEMO演示</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+
+		<link rel="stylesheet" type="text/css" href="css/api.css" />
+		<link rel="stylesheet" type="text/css" href="css/new.css" />
+		<link rel="stylesheet" type="text/css" href="css/aui.css" />
+		<link rel="stylesheet" type="text/css" href="css/box.css" />
+		<script type="text/javascript" src="script/public.js"></script>
+		<script type="text/javascript" src="jQuery.js"></script>
+		<script type="text/javascript" src="jqplot.js"></script>
+		<style>
+			body {
+				background-image: url('image/bg1.png');
+				background-repeat: no-repeat;
+				background-position: center;
+				background-size: 100% 100%;
+			}
+		</style>
+		<script type="text/javascript">
+		apiready = function(){
+			//alert("蓝牙初始化");
+			var bluetoothSPP = api.require("btsppiot");
+				bluetoothSPP.INIT(
+					{
+					},
+					function(ret, err){
+					});
+
+				/*
+				bluetoothSPP.connect(
+						{
+							sppMac:"30:1A:1C:09:0E:32",
+							isToast:false
+					},function(ret, err){
+							var status = ret.status;
+							if(status == 3)api.toast({ msg: "给定物理地址有误"});
+					});
+				*/
+
+				//bluetoothSPP.autoConnect(); //自动连接以配对串口蓝牙
+		 }
+
+		 function pairedDevice(){
+			 //alert("蓝牙已配对列表");
+			 var SPP = api.require("btsppiot");
+				 SPP.paired({
+				 },function(ret, err){
+				 });
+	 }
+
+			var date1 = 0;
+			var date2 = 0;
+			var date3 = 0;
+			var date4 = 0;
+			var date5 = 0;
+			var date6 = 0;
+			var date7 = 0;
+			var date8 = 0;
+			var t1 = window.setInterval(hello, 1000);
+			var time = 3000;
+			function hello() {
+				//alert("hello");
+				//date1 = Math.floor(Math.random() * 10 + 1);
+				 var SPP = api.require("btsppiot");
+			    SPP.receive({
+			        isToast:true
+			    },function(ret, err){
+			        var status = ret.status;
+			        if(status == 1)api.toast({ msg: "本机没有蓝牙设备"});
+			        if(status == 2)api.toast({ msg: "本机蓝牙没有开启"});
+			        if(status == 3)api.toast({ msg: "连接已断开"});
+			        var receiveData = ret.receiveData;
+			        if(receiveData != null)
+			        {
+			        	if(receiveData>=1500){
+			        		data_max=data_max+200;
+			        	}
+			        	 if(date1!=receiveData){
+			        		date8 = date7;
+			        		date7 = date6;
+			        		date6 = date5;
+			        		date5 = date4;
+			        		date4 = date3;
+			        		date3 = date2;
+			        		date2 = date1;
+
+			        	}
+						date1 = receiveData;
+			        	init();
+			        	//alert(date1);
+
+			        }
+
+
+			    });
+
+					window.setInterval(hello,time);
+			}
+			var data_max = 1500;
+			function init() {
+				var ad = 0;
+				var data = [];
+				data = [[date1,date2,date3,date4,date5,date6,date7,date8]];
+				//Y轴最大刻度
+				var line_title = ["A"];
+				//曲线名称
+				var y_label = "";
+				//Y轴标题
+				var x_label = "";
+				//X轴标题
+				var x = [1, 2, 3, 4, 5, 6, 7, 8];
+				//定义X轴刻度值
+				var title = "设备一号";
+				//统计图标标题
+				j.jqplot.diagram.base("chart2", data, line_title, "设备一号", x, x_label, y_label, data_max, 2);
+			}
+		</script>
+
+	</head>
+	<body>
+		<div id="wrap">
+        <div id="main" style="width: 100%;padding-top: 15%;">
+        	<br>
+
+				<div class="clickbtn" tapmode="active" onclick="pairedDevice()" >选择设备</div>
+				<div class="clickbtn" tapmode="active" onclick="hello()" >查看水量</div>
+			</div>
+		</div>
+		<div class="bar-chart" style="width: 100%;padding-top: 5%;">
+			<div id="chart2" style=""></div>
+		</div>
+
+	</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+   <title>title</title>
+		<link rel="stylesheet" type="text/css" href="./css/api.css" />
+		<link rel="stylesheet" type="text/css" href="css/new.css" />
+		<link rel="stylesheet" type="text/css" href="css/aui.css" />
+		<style>
+			body {
+				background-image: url('image/bg1.png');
+				background-repeat: no-repeat;
+				background-position: center;
+				background-size: 100% 100%;
+			}.aui-btn-row:after {
+				border: none;
+			}
+			.aui-input-row:after {
+				border: 1px solid #c8c7cc;
+				border-radius: 50px;
+			}
+			.aui-input-row .aui-input-addon {
+				padding-left: 20px;
+			}
+			.aui-input-row .aui-input {
+				width: 90%;
+			}
+			.rightal {
+				text-align: right;
+			}
+		</style>
+</head>
+<body>
+			<div style="padding-top: 180px;"></div>
+			<div style="width: 40%;height: 60px; background-color: #0066cc;border-top-right-radius: 50px;  border-bottom-right-radius:50px;  "  onclick="state();">
+			<div ><img src="image/weizhi.png" style="padding-left: 10px;padding-top: 10px; width: 43px;height: 43px;" />
+				<div style="float: right;width: 45%;height: 100%;line-height: 60px;">
+					<span style="font-weight: bold;color: #FFF; font-size: 19px;">上海</span>
+				</div>
+			</div>
+		</div>
+		<img src="image/shmubiao.png" style="padding-top: 5%;width: 100%;padding-bottom: 5%;" />
+		<div style="width: 40%;height: 60px; background-color: #0066cc;border-top-right-radius: 50px;  border-bottom-right-radius:50px;  "  onclick="state();">
+			<div >
+				<div style="float: right;width: 70%;height: 100%;line-height: 60px;">
+					<span style="font-weight: bold;color: #FFF; font-size: 19px;">目标设定</span>
+				</div>
+			</div>
+		</div>
+		<div class="aui-form" style="padding-top: 5%;">
+		<div class="aui-input-row login_input3">
+				<input type="text" style="text-align:center" onblur="mubiao();" class="aui-input" placeholder="请输入您目标" id="mubiao" >
+			</div>
+			</div>
+</body>
+	<script type="text/javascript" src="script/api.js"></script>
+<script type="text/javascript">
+	apiready = function(){
+		
+	};
+	function mubiao(){
+		$api.setStorage('mubiao', $api.byId("mubiao").value);
+		api.openWin({
+	            name: 'target1',
+	            url: 'target1.html'
+        });
+	}
+</script>
+</html>
